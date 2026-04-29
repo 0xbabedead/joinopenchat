@@ -19,14 +19,6 @@ const team: TeamMember[] = [
   },
 
   {
-    name: "Andy Piper",
-    position: "Head of Communications",
-    socials: {
-      mastodon: "https://macaw.social/@andypiper",
-    },
-  },
-
-  {
     name: "Claire",
     position: "Engineering (web)",
     socials: {
