@@ -99,6 +99,14 @@ const team: TeamMember[] = [
   },
 
   {
+    name: "Pia Bregulla",
+    position: "Engineering (web)",
+    socials: {
+      mastodon: "https://mastodon.social/@pia_ranha",
+    },
+  },
+
+  {
     name: "Renaud Chaput",
     position: "Technical Director",
     socials: {
