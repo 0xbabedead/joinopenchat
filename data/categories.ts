@@ -9,6 +9,7 @@ export const categoriesMessages = defineMessages({
   },
   art: { id: "server.category.art", defaultMessage: "Art" },
   books: { id: "server.category.books", defaultMessage: "Books" },
+  BIPOC: { id: "server.category.bipoc", defaultMessage: "BIPOC" },
   food: { id: "server.category.food", defaultMessage: "Food" },
   furry: { id: "server.category.furry", defaultMessage: "Furry" },
   games: { id: "server.category.gaming", defaultMessage: "Gaming" },
