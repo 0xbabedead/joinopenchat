@@ -560,6 +560,14 @@ export const apps: AppsList = {
       open: true,
       source_url: "https://github.com/ihabunek/toot",
     },
+    {
+      released_on: "Jun 19, 2017",
+      name: "mastodon.el",
+      icon: mastodonel,
+      url: "https://codeberg.org/martianh/mastodon.el",
+      open: true,
+      source_url: "https://codeberg.org/martianh/mastodon.el",
+    },
   ],
   retro: [
     {
