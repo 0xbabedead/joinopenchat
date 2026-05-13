@@ -59,67 +59,46 @@ import nicolium from "../public/apps/nicolium.png"
 import fursona from "../public/apps/fursona.png"
 import mastui from "../public/apps/mastui.png"
 import tootcli from "../public/apps/tootcli.png"
+import mastodonel from "../public/apps/mastodonel.png"
 
 import { z } from "zod"
-import type { StaticImageData } from "next/legacy/image"
 
-export type appsList = {
-  /** the operating system or platform the list of apps is built for */
-  [platform: string]: {
-    /** the name of the app */
-    name: string
-    /** app's icon or logo */
-    icon: StaticImageData
-    /** link to the app on its website or respective app store */
-    url: string
-    /** the date the app was first released on */
-    released_on?: string
-    /** whether the app requires a fee to access. defaults to false */
-    paid?: boolean
-    /** whether the app should be hidden from all, used to avoid duplicates */
-    hidden_from_all?: boolean
-    /** The category label */
-    categoryLabel?: string
-    /** Whether the application is considered open, defaults to false */
-    open?: boolean
-    /** The link to the application's source code if known */
-    source_url?: string
-  }[]
-}
+const appCategorySchema = z.enum(["android", "ios", "web", "desktop", "retro"])
+export type AppCategory = "all" | z.infer<typeof appCategorySchema>
 
-// Zod schema for runtime validation
-const appSchema = z
-  .object({
-    name: z.string().min(1, "App name is required"),
-    icon: z.any(),
-    url: z.string().url("App URL must be a valid URL"),
-    released_on: z.string().optional(),
-    paid: z.boolean().optional(),
-    hidden_from_all: z.boolean().optional(),
-    categoryLabel: z.string().optional(),
-    open: z.boolean().optional(),
-    source_url: z.string().url("Source URL must be a valid URL").optional(),
-  })
-  .refine(
-    (data) => {
-      // If open source, source_url must be provided
-      if (data.open === true && !data.source_url) {
-        return false
-      }
-      return true
-    },
-    {
-      message: "Open source apps (open: true) must have a source_url",
-    }
-  )
+const appSchema = z.object({
+  name: z.string().min(1, "App name is required"),
+  icon: z.object({
+    src: z.string(),
+    height: z.number(),
+    width: z.number(),
+    blurDataURL: z.string().optional(),
+  }),
+  url: z.string().url("App URL must be a valid URL"),
+  released_on: z.string().optional(),
+  paid: z.boolean().optional(),
+  hidden_from_all: z.boolean().optional(),
+  categoryLabel: appCategorySchema.optional(),
+  open: z.literal(false).optional(),
+})
 
-const appsListSchema = z.record(z.string(), z.array(appSchema))
+const appOpenSchema = appSchema.extend({
+  open: z.literal(true),
+  source_url: z.string().url("Source URL must be a valid URL"),
+})
+
+const appsListSchema = z.record(
+  appCategorySchema,
+  z.array(appSchema.or(appOpenSchema))
+)
+
+export type AppsList = z.infer<typeof appsListSchema>
 
 /**
  * Validates the apps data structure at runtime.
  * Throws an error if validation fails.
  */
-function validateApps(appsData: appsList): void {
+function validateApps(appsData: AppsList): void {
   try {
     appsListSchema.parse(appsData)
   } catch (error) {
@@ -133,7 +112,7 @@ function validateApps(appsData: appsList): void {
     throw error
   }
 }
-export const apps: appsList = {
+export const apps: AppsList = {
   android: [
     {
       released_on: "Nov 23, 2023",

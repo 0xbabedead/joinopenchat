@@ -1,14 +1,14 @@
 import { FormattedMessage, useIntl } from "react-intl"
 import { AppCard } from "../components/AppCard"
 import classNames from "classnames"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import SelectMenu from "../components/SelectMenu"
 import { sortBy as _sortBy } from "lodash"
-import type { appsList } from "../data/apps"
+import type { AppCategory, AppsList } from "../data/apps"
 import Category from "../components/Category"
 
 export type AppsGridProps = {
-  apps: appsList
+  apps: AppsList
 }
 
 /** Renders AppCards as a grid, with sorting and filtering options */
@@ -17,30 +17,35 @@ export const AppsGrid = ({ apps }: AppsGridProps) => {
   const [activeCategory, setActiveCategory] = useState("all")
 
   //prettier-ignore
-  const categories = [
-    { key: "all", label: intl.formatMessage({ id: "browse_apps.all", defaultMessage: "All" }) },
-    { key: "android", label: intl.formatMessage({ id: "browse_apps.android", defaultMessage: "Android" }) },
-    { key: "ios", label: intl.formatMessage({ id: "browse_apps.ios", defaultMessage: "iOS" }) },
-    { key: "web", label: intl.formatMessage({ id: "browse_apps.web", defaultMessage: "Web" }) },
-    { key: "desktop", label: intl.formatMessage({ id: "browse_apps.desktop", defaultMessage: "Desktop" }) },
-    { key: "retro", label: intl.formatMessage({ id: "browse_apps.retro", defaultMessage: "Retro computing" }) },
-  ]
+  const categories: Record<AppCategory, string> = useMemo(() => ({
+    all: intl.formatMessage({ id: "browse_apps.all", defaultMessage: "All" }),
+    android: intl.formatMessage({ id: "browse_apps.android", defaultMessage: "Android" }),
+    ios: intl.formatMessage({ id: "browse_apps.ios", defaultMessage: "iOS" }),
+    web: intl.formatMessage({ id: "browse_apps.web", defaultMessage: "Web" }),
+    desktop: intl.formatMessage({ id: "browse_apps.desktop", defaultMessage: "Desktop" }),
+    retro: intl.formatMessage({ id: "browse_apps.retro", defaultMessage: "Retro computing" }),
+  }), []);
 
   /** normalizing the apps dictionary as an array */
-  const allApps = Object.entries(apps)
-    .flatMap(([category, apps]) =>
-      apps.map(({ name, icon, url, paid, released_on, hidden_from_all, open }) => ({
-        name,
-        icon,
-        url,
-        paid: paid ?? false,
-        hidden_from_all: hidden_from_all ?? false,
-        released_on: new Date(released_on) ?? null,
-        category,
-        categoryLabel: categories.find((c) => c.key === category)["label"],
-        open,
-      }))
-    )
+  const allApps = useMemo(
+    () =>
+      Object.entries(apps).flatMap(([category, apps]) =>
+        apps.map(
+          ({ name, icon, url, paid, released_on, hidden_from_all, open }) => ({
+            name,
+            icon,
+            url,
+            paid: paid ?? false,
+            hidden_from_all: hidden_from_all ?? false,
+            released_on: new Date(released_on) ?? null,
+            category,
+            categoryLabel: categories[category],
+            open,
+          })
+        )
+      ),
+    []
+  )
 
   //prettier-ignore
   const sortOptions = [
@@ -68,12 +73,12 @@ export const AppsGrid = ({ apps }: AppsGridProps) => {
         </h2>
         <div className="-mx-gutter ps-gutter mb-6 overflow-x-auto">
           <div className="flex flex-wrap gap-gutter md:flex-nowrap">
-            {categories.map((category) => (
+            {Object.entries(categories).map(([key, label]) => (
               <Category
-                key={category.key}
-                value={category.key}
+                key={key}
+                value={key}
                 currentValue={activeCategory}
-                label={category.label}
+                label={label}
                 onChange={(e) => setActiveCategory(e.target.value)}
               />
             ))}
