@@ -58,6 +58,7 @@ import fread from "../public/apps/fread.png"
 import nicolium from "../public/apps/nicolium.png"
 import fursona from "../public/apps/fursona.png"
 import mastui from "../public/apps/mastui.png"
+import tootcli from "../public/apps/tootcli.png"
 
 import { z } from "zod"
 import type { StaticImageData } from "next/legacy/image"
@@ -90,7 +91,7 @@ export type appsList = {
 const appSchema = z
   .object({
     name: z.string().min(1, "App name is required"),
-    icon: z.any(), 
+    icon: z.any(),
     url: z.string().url("App URL must be a valid URL"),
     released_on: z.string().optional(),
     paid: z.boolean().optional(),
@@ -284,7 +285,7 @@ export const apps: appsList = {
       name: "DAWN for Mastodon",
       icon: dawn,
       url: "https://apps.apple.com/app/nightfox-dawn/id1668645019",
-      paid: false,
+      paid: true,
       open: false,
     },
     {
@@ -571,6 +572,14 @@ export const apps: appsList = {
       paid: false,
       open: true,
       source_url: "https://github.com/kimusan/mastui/",
+    },
+    {
+      released_on: "Apr 12, 2017",
+      name: "Toot",
+      icon: tootcli,
+      url: "https://toot.bezdomni.net/",
+      open: true,
+      source_url: "https://github.com/ihabunek/toot",
     },
   ],
   retro: [
