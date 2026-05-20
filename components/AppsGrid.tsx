@@ -24,7 +24,7 @@ export const AppsGrid = ({ apps }: AppsGridProps) => {
     web: intl.formatMessage({ id: "browse_apps.web", defaultMessage: "Web" }),
     desktop: intl.formatMessage({ id: "browse_apps.desktop", defaultMessage: "Desktop" }),
     retro: intl.formatMessage({ id: "browse_apps.retro", defaultMessage: "Retro computing" }),
-  }), []);
+  }), [intl]);
 
   /** normalizing the apps dictionary as an array */
   const allApps = useMemo(
@@ -44,7 +44,7 @@ export const AppsGrid = ({ apps }: AppsGridProps) => {
           })
         )
       ),
-    []
+    [apps, categories]
   )
 
   //prettier-ignore
