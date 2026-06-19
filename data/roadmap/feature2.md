@@ -1,6 +1,6 @@
 ---
-title: Fetch all replies
+title: Community
 status: released
 ---
 
-Version 4.5: No more missing replies to your posts! Threads now search for all replies and display them.
+Version 0.0.2: Discord and waitlist is live.

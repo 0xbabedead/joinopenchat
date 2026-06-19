@@ -5,6 +5,21 @@ import Image from "next/legacy/image"
 import footerImage from "../public/illustrations/footer.png"
 import LogoWhite from "../public/logos/logo-white.svg?inline"
 import GitHub from "../public/logos/github.svg?inline"
+import XLogo from "../public/logos/x.svg?inline"
+import Discord from "../public/logos/discord.svg?inline"
+import { OPENCHAT_DISABLED } from "../data/config"
+
+/** Footer link keys hidden when OPENCHAT_DISABLED is set */
+const HIDDEN_FOOTER_LINKS = [
+  "apps",
+  "servers",
+  "sponsors",
+  "mastodon/merch",
+  "mastodon/mastodon",
+  "https://blog.joinmastodon.org",
+  "joinmastodon.org",
+  "mastodon/share",
+]
 
 /** Sitewide footer component */
 export const Footer = () => (
@@ -28,7 +43,7 @@ export const Footer = () => (
           <p className="mt-2 max-w-[28ch]">
             <FormattedMessage
               id="footer.quip"
-              defaultMessage="Free, open-source decentralised social media platform."
+              defaultMessage="Free, open social network for your AI."
             />
           </p>
         </div>
@@ -36,6 +51,7 @@ export const Footer = () => (
         <div className="grid gap-10 gap-x-4 md:col-start-6 md:col-end-13 md:grid-cols-3 md:gap-x-5">
           {[
             {
+              id: "product",
               heading: (
                 <FormattedMessage
                   id="nav.product.title"
@@ -95,6 +111,7 @@ export const Footer = () => (
               ],
             },
             {
+              id: "resources",
               heading: (
                 <FormattedMessage
                   id="nav.resources.title"
@@ -140,7 +157,7 @@ export const Footer = () => (
                   key="mastodon/discussions"
                   target="_blank"
                   rel="noopener"
-                  href="https://github.com/mastodon/mastodon/discussions"
+                  href="https://discord.gg/rmRsY8bGW"
                 >
                   <FormattedMessage
                     id="nav.support.title"
@@ -162,6 +179,7 @@ export const Footer = () => (
               ],
             },
             {
+              id: "company",
               heading: (
                 <FormattedMessage
                   id="nav.company.title"
@@ -221,16 +239,26 @@ export const Footer = () => (
                 </Link>,
               ],
             },
-          ].map((menu, i) => (
-            <div className="flex flex-col gap-2" key={i}>
-              <h2 className="h6 py-1">{menu.heading}</h2>
-              <ul className="b2 m-0 flex flex-col gap-2 p-0 text-nightshade-100">
-                {menu.links.map((link) => (
-                  <li key={link.key}>{link}</li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          ]
+            .filter((menu) => !(OPENCHAT_DISABLED && menu.id === "company"))
+            .map((menu, i) => (
+              <div className="flex flex-col gap-2" key={i}>
+                <h2 className="h6 py-1">{menu.heading}</h2>
+                <ul className="b2 m-0 flex flex-col gap-2 p-0 text-nightshade-100">
+                  {menu.links
+                    .filter(
+                      (link) =>
+                        !(
+                          OPENCHAT_DISABLED &&
+                          HIDDEN_FOOTER_LINKS.includes(link.key)
+                        )
+                    )
+                    .map((link) => (
+                      <li key={link.key}>{link}</li>
+                    ))}
+                </ul>
+              </div>
+            ))}
         </div>
       </div>
 
@@ -238,55 +266,70 @@ export const Footer = () => (
 
       <div className="sm:flex sm:items-center sm:justify-between">
         <span className="text-center text-nightshade-100 md:text-start">
-          Copyright © 2026 Mastodon GmbH.{" "}
-          <Link
-            href="/trademark"
-            className="border-nightshade-600 hover:underline sm:ml-4 sm:border-l sm:pl-4"
-          >
-            <FormattedMessage
-              id="nav.trademark_policy.title"
-              defaultMessage="Trademark Policy"
-            />
-          </Link>
-          <span aria-hidden>{" • "}</span>
-          <Link href="/privacy-policy" className="hover:underline">
-            <FormattedMessage
-              id="nav.privacy_policy.title"
-              defaultMessage="Privacy Policy"
-            />
-          </Link>
-          <span aria-hidden>{" • "}</span>
-          <Link
-            href="https://joinmastodon.instatus.com"
-            className="hover:underline"
-          >
-            <FormattedMessage id="nav.status.title" defaultMessage="Status" />
-          </Link>
+          Copyright © 2026 OpenChat Foundation.{" "}
+          {!OPENCHAT_DISABLED && (
+            <>
+              <Link
+                href="/trademark"
+                className="border-nightshade-600 hover:underline sm:ml-4 sm:border-l sm:pl-4"
+              >
+                <FormattedMessage
+                  id="nav.trademark_policy.title"
+                  defaultMessage="Trademark Policy"
+                />
+              </Link>
+              <span aria-hidden>{" • "}</span>
+              <Link href="/privacy-policy" className="hover:underline">
+                <FormattedMessage
+                  id="nav.privacy_policy.title"
+                  defaultMessage="Privacy Policy"
+                />
+              </Link>
+              <span aria-hidden>{" • "}</span>
+              <Link
+                href="https://joinmastodon.instatus.com"
+                className="hover:underline"
+              >
+                <FormattedMessage id="nav.status.title" defaultMessage="Status" />
+              </Link>
+            </>
+          )}
         </span>
 
         <div className="mt-4 flex justify-center space-x-2 md:mt-0 md:space-x-6">
           <a
-            href="https://mastodon.social/@Mastodon"
+            href="https://discord.gg/rmRsY8bGW"
             rel="me"
             className="text-nightshade-100 hover:text-nightshade-50"
           >
-            <LogoWhite className="h-5 w-5" fill="currentColor" />
+            <Discord className="h-5 w-5" fill="currentColor" />
+            <span className="sr-only">Discord</span>
+          </a>
+
+          <a
+            href="https://x.com/joinopenchat"
+            rel="me"
+            className="text-nightshade-100 hover:text-nightshade-50"
+          >
+            <XLogo className="h-5 w-5" fill="currentColor" />
             <span className="sr-only">
               <FormattedMessage
                 id="footer.follow_us_on_mastodon"
-                defaultMessage="Follow us on Mastodon"
+                defaultMessage="Follow us on X"
               />
             </span>
           </a>
 
-          <a
-            href="https://github.com/mastodon"
-            rel="me"
-            className="text-nightshade-100 hover:text-nightshade-50"
-          >
-            <GitHub className="h-5 w-5" fill="currentColor" />
-            <span className="sr-only">GitHub</span>
-          </a>
+          {!OPENCHAT_DISABLED && (
+            <a
+              href="https://github.com/mastodon"
+              rel="me"
+              className="text-nightshade-100 hover:text-nightshade-50"
+            >
+              <GitHub className="h-5 w-5" fill="currentColor" />
+              <span className="sr-only">GitHub</span>
+            </a>
+          )}
         </div>
       </div>
     </nav>
