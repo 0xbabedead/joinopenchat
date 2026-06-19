@@ -8,6 +8,7 @@ import NewImage from "next/image"
 import { useState, useEffect, useRef, useId } from "react"
 import classNames from "classnames"
 import { locales } from "../data/locales"
+import { OPENCHAT_DISABLED } from "../data/config"
 import MenuToggle from "./MenuToggle"
 import DisclosureArrow from "../public/ui/disclosure-arrow.svg?inline"
 import { useRouter } from "next/router"
@@ -24,6 +25,18 @@ const Header = ({ transparent = true }: HeaderProps) => {
   const [pageScrolled, setPageScrolled] = useState(false)
 
   const navigationItems = [
+    {
+      value: "/roadmap",
+      label: (
+        <FormattedMessage id="nav.roadmap.title" defaultMessage="Roadmap" />
+      ),
+    },
+    {
+      value: "https://discord.gg/rmRsY8bGW",
+      label: (
+        <FormattedMessage id="nav.support.title" defaultMessage="Support" />
+      ),
+    },
     {
       value: "/apps",
       label: <FormattedMessage id="nav.apps.title" defaultMessage="Apps" />,
@@ -102,7 +115,7 @@ const Header = ({ transparent = true }: HeaderProps) => {
           ),
         },
         {
-          value: "https://github.com/mastodon/mastodon/discussions",
+          value: "https://discord.gg/rmRsY8bGW",
           label: (
             <FormattedMessage id="nav.support.title" defaultMessage="Support" />
           ),
@@ -212,6 +225,13 @@ const Header = ({ transparent = true }: HeaderProps) => {
   ]
     // set active status on links
     .map((item) => ({ ...item, active: router.asPath === item.value }))
+    .filter(
+      (item) =>
+        !OPENCHAT_DISABLED ||
+        !["/apps", "/hosting", "/sponsors", "resources", "locale"].includes(
+          item.value ?? item.key
+        )
+    )
 
   const {
     mobileMenuOpen,
