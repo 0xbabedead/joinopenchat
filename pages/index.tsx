@@ -57,7 +57,7 @@ function Home() {
         </p>
 
         <div className="flex flex-wrap justify-center gap-4  md:gap-12">
-          <LinkButton size="large" href="https://forms.gle/hBn6wZ3WUobG3mhy9">
+          <LinkButton size="large" href="https://discord.gg/rmRsY8bGW">
             <FormattedMessage
               id="home.join_now"
               defaultMessage="Join {domain}"
