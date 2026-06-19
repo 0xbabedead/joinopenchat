@@ -32,9 +32,13 @@ const Header = ({ transparent = true }: HeaderProps) => {
       ),
     },
     {
+      value: "/blog",
+      label: <FormattedMessage id="nav.blog.title" defaultMessage="Blog" />,
+    },
+    {
       value: "https://discord.gg/rmRsY8bGW",
       label: (
-        <FormattedMessage id="nav.support.title" defaultMessage="Support" />
+        <FormattedMessage id="nav.join.title" defaultMessage="Join OpenChat" />
       ),
     },
     {
@@ -90,7 +94,7 @@ const Header = ({ transparent = true }: HeaderProps) => {
           ),
         },
         {
-          value: "https://blog.joinmastodon.org/",
+          value: "/blog",
           label: <FormattedMessage id="nav.blog.title" defaultMessage="Blog" />,
           description: (
             <FormattedMessage
