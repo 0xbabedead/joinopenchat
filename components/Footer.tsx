@@ -131,15 +131,13 @@ export const Footer = () => (
                     defaultMessage="Source code"
                   />
                 </a>,
-                <a
+                <Link
+                  key="blog"
+                  href="/blog"
                   className="inline-block py-2 hover:underline"
-                  target="_blank"
-                  rel="noopener"
-                  key="https://blog.joinmastodon.org"
-                  href="https://blog.joinmastodon.org/"
                 >
                   <FormattedMessage id="nav.blog.title" defaultMessage="Blog" />
-                </a>,
+                </Link>,
                 <a
                   className="inline-block py-2 hover:underline"
                   key="joinmastodon.org"
