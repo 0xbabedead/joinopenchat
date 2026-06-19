@@ -49,6 +49,8 @@ Raster images should be added at the maximum resolution they'll be displayed at.
 
 ## Deployment
 
+This site is deployed on Vercel at [www.openchat.gg](https://www.openchat.gg), which auto-deploys the `main` branch.
+
 Next.js should be hosted using a Node.js server. ([see instructions](https://nextjs.org/docs/pages/building-your-application/deploying#self-hosting)). The reasons that this has been chosen over a static HTML export are:
 
 - [image optimization](<[#image-optimization](https://nextjs.org/docs/pages/building-your-application/deploying#image-optimization)%3E>) (for automatic webp conversion and compression)
