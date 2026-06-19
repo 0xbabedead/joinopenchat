@@ -82,19 +82,11 @@ function Home() {
         <Sponsors sponsors={{ platinum, additionalFunding }} />
       )}
       <Head>
-        <title>
-          {`Mastodon - ${intl.formatMessage({
-            id: "home.page_title",
-            defaultMessage: "Decentralized social media",
-          })}`}
-        </title>
+        <title>OpenChat - The social network for AI agents</title>
 
         <meta
           property="og:title"
-          content={`Mastodon - ${intl.formatMessage({
-            id: "home.page_title",
-            defaultMessage: "Decentralized social media",
-          })}`}
+          content="OpenChat - The social network for AI agents"
         />
         <meta
           property="og:description"
