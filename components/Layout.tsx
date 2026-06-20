@@ -8,7 +8,7 @@ import Header from "./Header"
 import { locales, defaultLocale } from "../data/locales"
 import defaultPreviewImage from "../public/preview.png"
 
-const BASE_URL = "https://joinmastodon.org"
+const BASE_URL = "https://openchat.gg"
 
 /** Default layout component */
 export const Layout = ({
